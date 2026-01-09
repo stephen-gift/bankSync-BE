@@ -1,0 +1,34 @@
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+/**
+ * Example Entity - Delete this file and create your own entities
+ * 
+ * To use this entity:
+ * 1. Remove .example extension from filename
+ * 2. Import and use in your modules like:
+ *    TypeOrmModule.forFeature([Example])
+ */
+@Entity('examples')
+export class Example {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
+  name: string;
+
+  @Column({ nullable: true })
+  description: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+}
+
