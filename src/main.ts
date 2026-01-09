@@ -19,6 +19,7 @@ async function bootstrap() {
   console.log(
     `Swagger is running on port ${process.env.PORT ?? 3000}/api/docs`,
   );
+  console.log(`Database is running on port ${process.env.DATABASE_URL}`);
 }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();
