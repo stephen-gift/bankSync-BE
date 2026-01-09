@@ -5,6 +5,7 @@ import { getTypeOrmConfig } from '../config/typeorm.config';
 
 @Module({
   imports: [
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
