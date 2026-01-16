@@ -9,7 +9,18 @@ async function bootstrap() {
     .setTitle('BankSync API')
     .setDescription('BankSync Backend API documentation')
     .setVersion('1.0')
-    .addTag('banksync')
+    .addTag('auth', 'Authentication endpoints')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
@@ -19,7 +30,9 @@ async function bootstrap() {
   console.log(
     `Swagger is running on port ${process.env.PORT ?? 3000}/api/docs`,
   );
-  console.log(`Database is running on port ${process.env.DATABASE_URL}`);
+  console.log(
+    `Database is running on port ${process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : process.env.DATABASE_URL_DEV}`,
+  );
 }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();
