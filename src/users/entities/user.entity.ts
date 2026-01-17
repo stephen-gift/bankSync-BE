@@ -14,7 +14,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @Column({ nullable: true })
@@ -22,6 +22,15 @@ export class User {
 
   @Column({ nullable: true })
   lastName: string;
+
+  @Column({ nullable: true })
+  googleId: string;
+
+  @Column({ nullable: true })
+  avatar: string;
+
+  @Column({ default: 'local' })
+  provider: 'local' | 'google';
 
   @CreateDateColumn()
   createdAt: Date;

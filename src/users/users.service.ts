@@ -34,11 +34,46 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
+  async findOrCreateGoogleUser(googleProfile: any): Promise<User> {
+    const { id, emails, name, photos } = googleProfile;
+    const email = emails[0].value;
+
+    let user = await this.usersRepository.findOne({
+      where: [{ googleId: id }, { email }],
+    });
+
+    if (user) {
+      // Update Google ID if user exists with email but no Google ID
+      if (!user.googleId) {
+        user.googleId = id;
+        user.provider = 'google';
+        user = await this.usersRepository.save(user);
+      }
+      return user;
+    }
+
+    // Create new user
+    const newUser = this.usersRepository.create({
+      email,
+      googleId: id,
+      firstName: name?.givenName,
+      lastName: name?.familyName,
+      avatar: photos?.[0]?.value,
+      provider: 'google',
+    });
+
+    return this.usersRepository.save(newUser);
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     return this.usersRepository.findOne({ where: { email } });
   }
 
   async findById(id: string): Promise<User | null> {
     return this.usersRepository.findOne({ where: { id } });
+  }
+
+  async findByGoogleId(googleId: string): Promise<User | null> {
+    return this.usersRepository.findOne({ where: { googleId } });
   }
 }
